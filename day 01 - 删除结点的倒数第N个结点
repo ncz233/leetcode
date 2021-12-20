@@ -1,0 +1,35 @@
+//双指针版
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
+
+    struct ListNode* newnode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newnode->val = NULL;
+    newnode->next = head;
+
+    struct ListNode* former = head;
+    struct ListNode* after = newnode;//这里慢指针慢了一步，因为单链表不能访问上一个结点，这里的是访问删除的结点前一个结点
+
+    while(n)
+    {
+        former = former->next;
+        n--;
+    }
+    while(former)
+    {
+        former = former->next;
+        after = after->next;
+    }
+    after->next = after->next->next;
+
+    struct ListNode* phead = newnode->next;
+    return phead;
+}
+
