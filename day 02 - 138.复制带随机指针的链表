@@ -1,0 +1,78 @@
+//原地算，控制不好，就是怕污染源head
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     struct Node *next;
+ *     struct Node *random;
+ * };
+ */
+typedef struct Node Node;
+struct Node* copyRandomList(struct Node* head)
+{
+    if(head == NULL)
+    {
+        return NULL;
+    }
+    //拷贝节点到源节点后面,还没有拷贝random
+	Node* cur = head;
+    while(cur)
+    {
+        //创建完结点
+        Node* copy = (Node*)malloc(sizeof(Node));
+        copy->next = NULL;
+        copy->random = NULL;
+        copy ->val = cur->val;
+
+        //连接结点
+        Node* next = cur->next;
+        cur->next = copy;
+        copy->next = next;
+
+        cur = next;
+    }
+
+    //处理拷贝节点的random(相对关系)
+    cur = head;
+    while(cur)
+    {
+        if(cur->random)
+        {
+        //因为新加的结点是在原先每个结点后添加所以往后移动一位
+        Node* copy = cur->next;
+        //copy的random一定是指向copy的，又因为copy在cur的后面所以next。到这里已经把随机指针给定好了
+        copy->random = cur->random->next;
+        }
+        // else
+        // {
+        //     copy->random = NULL;
+        // }这里不需要因为前面初始化的时候已经是全都是NULL了
+
+        //因为加上新的结点多了一倍，所以多指一位
+        cur = cur->next->next;
+    }
+
+    //拆，拆了之后要连接起来
+    cur = head;
+    //要拆的结点,并且要返回的头
+    Node* copyHead = head->next;
+    while(cur)
+    {
+        //定义拆的结点第一个结点
+        Node* copyHead = cur->next;
+        //定义一开始的链表的下一个结点
+        Node* next = copyHead->next;
+        //开始拆了
+        cur->next = next;
+        if(next)//加结点的时候就依据以前的链表，拆也是
+        {
+            copyHead->next = next->next;
+        }
+        else
+        {
+            copyHead->next = NULL;
+        }
+        cur = next;
+    }
+    return copyHead;
+}
