@@ -76,3 +76,35 @@ struct Node* copyRandomList(struct Node* head)
     }
     return copyHead;
 }
+
+
+
+//用哨兵位迭代删除
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+typedef struct ListNode Node;
+struct ListNode* removeElements(struct ListNode* head, int val){
+    //哨兵位，从头开始删除，注：最后返回的地址是哨兵位的下一个结点
+    Node *phead = (Node*)malloc(sizeof(Node));
+    phead->next = head;
+    phead->val = NULL;
+    Node* cur = phead;
+    while(cur->next)
+    {
+        if(cur->next->val == val)
+        {
+            cur->next = cur->next->next;
+        }
+        else
+        {
+        cur = cur->next;
+        }
+    }
+    return phead->next;
+}
