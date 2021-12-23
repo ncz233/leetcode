@@ -1,0 +1,75 @@
+//思路:创建一个大于10要%10进1，创建一个结点要得出的数要sum%10加入.要控制好指针
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
+    //先创建个指针变量，防止源数据损坏
+    struct ListNode*cur1 = l1;
+    struct ListNode*cur2 = l2;
+    
+    //创建哨兵位
+    struct ListNode*stk = (struct ListNode*)malloc(sizeof(struct ListNode));
+    stk->val = NULL;
+    stk->next = NULL;
+
+    struct ListNode*p = stk;//指针指向头节点
+    int i = 0;//用来进阶用的
+    //开始计算了
+    while(cur1 || cur2)
+    {
+        //创建一个链表
+        struct ListNode* newnode = (struct ListNode*)malloc(sizeof(struct ListNode));
+        newnode->val = NULL;
+        newnode->next = NULL;
+        p->next = newnode;
+        p = p->next;//指向下一个,因为p是指向头节点的
+
+        //开始判断了和
+        int sum = 0;
+        if(cur1 == NULL)//有可能两个链表长度不一样
+        {
+            sum = cur2->val + i;//这个i是来进阶加1的
+            cur2 = cur2->next;
+        }
+        else if(cur2 == NULL)//同上
+        {
+            sum = cur1->val + i;//+1(同上)
+            cur1 = cur1->next;
+        }
+        //都不是的情况是
+        else
+        {
+            sum = cur2->val + cur1->val + i;
+            printf("%d ",sum);
+            cur1 = cur1->next;
+            cur2 = cur2->next;
+        }
+        //判断了，
+        if(sum >= 10)
+            {
+                p->val = sum % 10;
+                i = 1;
+            }
+            else
+            {
+                p->val = sum;
+                i = 0;
+            }
+    }
+    //还有一种可能，就是最后也是要进阶的,所以给他创建一个结点在后面
+    if(i == 1)
+    {
+        struct ListNode*i = (struct ListNode*)malloc(sizeof(struct ListNode));
+        i->val = 1;
+        i->next = NULL;
+        p->next = i;
+    }
+
+    return stk->next;
+}
