@@ -1,0 +1,21 @@
+bool isPalindrome(int x){
+    int new = x;
+    long new2 = 0;//倒过来的数
+    if(new<0)
+    {
+        return false;
+    }
+    if(new == 0)
+    {
+        return true;
+    }
+
+    while(new)
+    {
+        new2 = new % 10 + new2 * 10;//倒过来
+        new/=10;
+    }
+
+    return new2 == x;
+
+}
