@@ -1,0 +1,49 @@
+int maxArea(int* height, int heightSize){
+    //fmin - 返回较小的参数
+    //fmax - 返回较大的参数
+
+    int sum = 0;//最后返回的值
+    int left = 0;//左指针
+    int right = heightSize - 1;//右指针
+
+    while(left < right)
+    {
+        sum = fmax(sum, fmin(height[left], height[right]) * (right - left));//判断
+        //要让这个循环动起来
+        if(height[left] == height[right])
+        {
+            height[left++];
+            height[right--];
+        }
+        else if(height[left]>height[right])
+        {
+            height[right--];
+        }
+        else
+        {
+            height[left++];
+        }
+    }
+
+    return sum;
+
+}
+
+//冒泡排序(每日做一下经典的排序算法)
+void MaoPao(int a[], int len)
+{
+	int i, j;
+	for ( i = 0; i < len; i++)
+	{
+		for ( j = i+1; j < len; j++)
+		{
+			if (a[i] > a[j])
+			{
+				int n;
+				n = a[i];
+				a[i] = a[j];
+				a[j] = n;
+			}
+		}
+	}
+}
