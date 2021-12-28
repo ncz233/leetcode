@@ -1,0 +1,52 @@
+int removeDuplicates(int* nums, int numsSize){
+    if(numsSize == 0)
+    {
+        return 0;
+    }
+    int former = 0;//返回的数 - 也是后指针
+    int after = 1;//前指针
+    while(after < numsSize)
+    {
+        //判断是否相等
+        if(nums[after] != nums[former])
+        {
+            nums[former+1] = nums[after];
+            former++;
+        }
+        after++;
+    }
+    //因为上面的forme表示的是下标，下标是比正常的少1的，所以加上1
+    return former + 1;
+}
+
+
+int ChaZao(int* a, int fast, int low)
+{
+	int val = a[fast];
+	while (fast < low)
+	{
+		while (fast < low && a[low] >= val)
+		{
+			low--;
+		}
+		a[fast] = a[low];
+		while (fast < low && a[fast] <= val)
+		{
+			fast++;
+		}
+		a[low] = a[fast];
+	}
+	a[fast] = val;
+	return fast;
+}
+//快排
+void KuaiPai(int* a, int fast, int low)
+{
+	int pos;
+	if (fast < low)
+	{
+		pos = ChaZao(a, fast, low);//第一个元素的准确位置 - 查找
+		KuaiPai(a, fast, pos-1);//左
+		KuaiPai(a, pos+1, low);//右
+	}
+}
