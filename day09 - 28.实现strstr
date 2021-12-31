@@ -1,0 +1,26 @@
+int strStr(char * haystack, char * needle){
+    int len1 = strlen(haystack);//长度
+    int len2 = strlen(needle);//长度
+    if(1 > len2)//needle长度比1小就是空的
+    {
+        return 0;
+    }
+    int tmp1 ,tmp2;//不能能定义在里面，因为循环一次就重新定义了一遍
+    for(int i = 0; i < len1; i++)//循环的次数
+    {
+        if(len1-i < len2)//当haystack剩下的长度小于needle的时候就是一定不是相等的
+        {
+            return -1;
+        }
+        tmp1 = i;//判断，这个是个haystack的下标
+        tmp2 = 0;//判断，这个是needle的下标
+        while(haystack[tmp1++] == needle[tmp2++])//开始循环，所以要++
+        {
+            if(len2 == tmp2)//等到needle的长度等于判断needle循环的次数就可以了
+            {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
