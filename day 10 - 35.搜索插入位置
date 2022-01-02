@@ -1,0 +1,27 @@
+int searchInsert(int* nums, int numsSize, int target){
+    //判断
+    if(nums == NULL || numsSize <= 0)
+    {
+        return -1;
+    }
+
+    //定义
+    int low = 0;//一开始的首元素
+    int fast = numsSize - 1;//尾元素
+    int and = numsSize;//要返回的下标，找不到肯定是超过这个数组的最大值，返回下标+1，所以不用-1
+
+    while(low <= fast)
+    {
+        int mid = low + (fast - low);//中位数
+        if(nums[mid] >= target)//判断，顺便把=号也判断了
+        {
+            and = mid;
+            fast = mid-1;
+        }
+        else if(nums[mid] < target)//判断
+        {
+            low = mid+1;
+        }
+    }
+    return and;
+}
