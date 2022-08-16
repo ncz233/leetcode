@@ -1,0 +1,34 @@
+int my_Compare(const void* a, const void* b)
+{
+    return(*(int*)a - *(int*)b);
+}
+
+double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size){
+    int mySize = nums1Size + nums2Size;
+    int* myNums = (int*)malloc(sizeof(int) * mySize);
+    
+    int i,j;
+    for(i = 0; i < nums1Size; i++)
+    {
+        myNums[i] = nums1[i];
+    }
+    for(j = 0; j < nums2Size; j++)
+    {
+        myNums[nums1Size+j] = nums2[j];
+    }
+
+    qsort(myNums, mySize, sizeof(int), my_Compare);
+
+    double num;
+    if(mySize % 2 == 1)
+    {
+        int sum = mySize / 2;
+        num = (double)myNums[sum];
+    }
+    else //if(mySize % 2 == 0)
+    {
+        int sum = mySize / 2;//这里的是四舍五入,是后一个.
+        num = ((double)myNums[sum] + (double)myNums[sum - 1])/2;
+    }
+    return num;
+}
