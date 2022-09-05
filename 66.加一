@@ -1,0 +1,28 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* plusOne(int* digits, int digitsSize, int* returnSize){
+
+    for(int i = digitsSize - 1; i >= 0; i--)
+    {
+        if(digits[i] == 9)
+        {
+            digits[i] = 0;
+            //如果全是9那么看循环后面的代码
+        }
+        else
+        {
+            //如果有一个不是9那么将终止
+            digits[i]++;
+            *returnSize = digitsSize;
+            return digits;
+        }
+    }
+
+    //如果是[9,9,9,9,9]则返回[1,0,0,0,0,0]
+    *returnSize = digitsSize + 1;
+    int* num = (int*)malloc(sizeof(int)*(digitsSize + 1));
+    memset(num, 0, sizeof(int)*(digitsSize + 1));//内存设置
+    num[0] = 1;
+    return num;
+}
