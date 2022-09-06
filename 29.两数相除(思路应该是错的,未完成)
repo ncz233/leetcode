@@ -1,0 +1,44 @@
+int divide(int dividend, int divisor){
+    if(divisor == 0)
+    {
+        return false;
+    }
+
+    if(dividend == divisor)
+    {
+        return 1;
+    }
+
+    int my_dividend = (int)dividend;
+    int my_divisor = (int)divisor;
+
+    int my_return = 1;
+    if(dividend > divisor)
+    {
+        int j = my_divisor;
+
+        if(my_divisor < 0)
+        {
+            my_divisor *= -1;
+        }
+
+        for(int i = my_divisor; i <= my_dividend; i += i)
+        {
+            my_return += 1;
+        }
+
+        if((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0))
+        {
+
+            return (my_return - (my_return + my_return));
+        }
+        else
+        {
+            return my_return;
+        }
+    }
+    else
+    {
+        return 0;
+    }
+}
