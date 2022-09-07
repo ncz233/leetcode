@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+void myFunc(struct TreeNode* root, int* myNum, int* returnSize);
+int* preorderTraversal(struct TreeNode* root, int* returnSize){
+    *returnSize = 0;//这个必须在前,不然返回不了.
+    if(root == NULL)
+    {
+        return NULL;
+    }
+    int* myNum = (int*)malloc(sizeof(int)*101);
+
+    myFunc(root, myNum, returnSize);
+
+    return myNum;
+}
+
+void myFunc(struct TreeNode* root, int* myNum, int* returnSize)
+{
+    if(root == NULL)
+    {
+        return;//返回类型是空,所以没有返回值.
+    }
+
+    myNum[*returnSize] = root->val;//一开始是本身,后来是各自的节点
+    *returnSize = *returnSize + 1;
+
+    myFunc(root->left, myNum, returnSize);
+
+    myFunc(root->right, myNum, returnSize);
+
+}
