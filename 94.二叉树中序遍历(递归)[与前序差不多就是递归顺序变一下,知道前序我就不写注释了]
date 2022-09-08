@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+#define MAX 101
+void my_func(struct TreeNode* root, int* returnMyNum, int* returnSize);
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+    *returnSize = 0;
+    if(root == NULL)
+    {
+        return NULL;
+    }
+
+    int* returnMyNum = (int*)malloc(sizeof(int) * MAX);
+    
+    my_func(root, returnMyNum, returnSize);
+
+    return returnMyNum;
+}
+
+void my_func(struct TreeNode* root, int* returnMyNum, int* returnSize)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    
+    my_func(root->left, returnMyNum, returnSize);
+
+    returnMyNum[*returnSize] = root->val;
+    *returnSize += 1;
+
+    my_func(root->right, returnMyNum, returnSize);
+}
