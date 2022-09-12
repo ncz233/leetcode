@@ -1,0 +1,32 @@
+int mySqrt(int x){
+    int left = 1;
+    int right = x;
+    int temp;
+    int ifVal;
+
+    if(x == 0)
+    {
+        return 0;
+    }
+
+    while(left <= right)
+    {
+        temp = left + (right - left) / 2;//开平方
+        ifVal = x / temp;//和最后的开出的平方是否相同
+
+        if(ifVal == temp)
+        {
+            return temp;//相同返回两个中任意一个数
+        }
+        else if(ifVal < temp)
+        {
+            right = temp - 1;//最后平方小于现在平方,右一半继续开
+        }
+        else
+        {
+            left = temp + 1;//反之,左一半继续开
+        }
+    }
+
+    return right;//开到完为止,不需要+-1,因为循环完left和right就是了
+}
