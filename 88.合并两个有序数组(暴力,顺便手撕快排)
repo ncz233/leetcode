@@ -1,0 +1,63 @@
+void my_Qstor(int* nums1, int left, int right);
+int my_Func(int* nums1,int left, int right);
+
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
+    if(nums1 == NULL && nums2 == NULL)
+    {
+        return;
+    }
+    else if(nums1 == NULL && nums2 != NULL)
+    {
+        nums1 = nums2;
+        return;
+    }
+    else if(nums1 != NULL && nums2 == NULL)
+    {
+        return;
+    }
+
+    int i,j;
+    //这里m不需要+1,正好对应要从哪里加数.
+    for(i = m, j = 0; i < nums1Size && j <= nums2Size; i++, j++)
+    {
+        nums1[i] = nums2[j];
+    }
+    // int s = sizeof(nums1);
+    // printf("%d,%d",s,nums1Size);
+
+    //快排
+    my_Qstor(nums1, 0, nums1Size-1);//元素个数-1是下标
+
+}
+
+void my_Qstor(int* nums1, int left, int right)
+{
+    int pos = 0;
+    if(left < right)
+    {
+        pos = my_Func(nums1,left,right);//找到中间值
+        my_Qstor(nums1, left, pos - 1);//左边
+        my_Qstor(nums1, pos + 1, right);//右边
+    }
+}
+
+int my_Func(int* nums1,int left, int right)
+{
+    int val = nums1[left];
+    while(left < right)
+    {
+        while(left < right && nums1[right] >= val)
+        {
+            right--;
+        }
+        nums1[left] = nums1[right];
+
+        while(left < right && nums1[left] <= val)
+        {
+            left++;
+        }
+        nums1[right] = nums1[left];
+    }
+    nums1[right] = val;
+    return right;
+}
