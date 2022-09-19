@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+bool func(struct TreeNode* r1, struct TreeNode* r2);
+
+bool isSymmetric(struct TreeNode* root){
+    struct TreeNode* my_root1 = root;
+    struct TreeNode* my_root2 = root;
+
+    if(root == NULL)
+    {
+        return false;
+    }
+
+    bool i = func(my_root1, my_root2);
+    return i;
+
+}
+
+//对称,左子树左边,对右子树右边.左子树右边,对右子树左边.(递归)
+bool func(struct TreeNode* r1, struct TreeNode* r2)
+{
+    if(r1 == NULL && r2 == NULL)//当前节点一起为空
+    {
+        return true;
+    }
+    if(r1 == NULL || r2 == NULL)//当前节点两个有一个不为空
+    {
+        return false;
+    }
+    if(r1->val != r2->val)//数据不一样
+    {
+        return false;
+    }
+
+    return (func(r1->left, r2->right) && func(r1->right, r2->left));//核心
+}
