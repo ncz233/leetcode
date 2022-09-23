@@ -1,0 +1,68 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+struct TreeNode* func(struct ListNode* myleft, struct ListNode* myright);
+struct ListNode* midFunc(struct ListNode* myleft, struct ListNode* myright);
+
+struct TreeNode* sortedListToBST(struct ListNode* head){
+    if(head == NULL)
+    {
+        return NULL;
+    }
+
+    //找链表有多少个节点是一个蠢办法.找出mid中点可以用双指针,一个走两步,一个走一步
+    // int size = 0;
+    // for(size = 0; head != NULL; size++)
+    // {
+    //     head = head->next;
+    // }
+
+    struct TreeNode* root = func(head, NULL);//名字是头节点,NULL是尾结点的下一个位置
+    return root;
+}
+
+struct TreeNode* func(struct ListNode* myleft, struct ListNode* myright)
+{
+    if(myleft == myright)
+    {
+        return NULL;
+    }
+    
+    struct ListNode* mymid = midFunc(myleft, myright);//找到中节点返回去是 真中点,
+    struct TreeNode* root = (struct TreeNode*)malloc(sizeof(struct TreeNode));//创建节点
+
+    root->val = mymid->val;
+    root->left = root->right = NULL;//一开始设置为空,最坏打算是左右都是NULL
+    root->left = func(myleft, mymid);
+    root->right = func(mymid->next, myright);
+    
+    return root;
+
+}
+
+struct ListNode* midFunc(struct ListNode* myleft, struct ListNode* myright)
+{
+    struct ListNode* fast = myleft;
+    struct ListNode* slow = myleft;
+
+    while(fast != myright && fast->next != myright)//myright 本质上是最后一个的下一个.(第一次用这个函数时)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+
+    return slow; 
+}
