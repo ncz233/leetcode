@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+int Func(struct TreeNode* root);//深度
+
+bool isBalanced(struct TreeNode* root){
+    if(root == NULL)//一开始为空时
+    {
+        return true;
+    }
+    else if(root->left == NULL && root->right == NULL)//达到最底层叶子节点的位置
+    {
+        return true;
+    }
+
+    if(abs (Func(root->left) - Func(root->right)) > 1)//用绝对值看,如果大于1了,那就不是一颗高度平衡二叉树
+    {
+        return false;
+    }
+
+    return isBalanced(root->left) && isBalanced(root->right);//左右节点开始
+}
+
+int Func(struct TreeNode* root)
+{
+    int myLeft = 1;
+    int myRight = 1;
+
+    if(root == NULL)
+    {
+        return 0;
+    }
+
+    if(root->left != NULL)
+    {
+        myLeft += Func(root->left);
+    }
+
+    if(root->right != NULL)
+    {
+        myRight += Func(root->right);
+    }
+
+    if(myLeft > myRight)
+    {
+        return myLeft;
+    }
+    else
+    {
+        return myRight;
+    }
+}
