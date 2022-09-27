@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+int minTreeNode(struct TreeNode* root);
+
+int minDepth(struct TreeNode* root){
+
+    if(root == NULL)
+    {
+        return 0;
+    }
+
+    return minTreeNode(root);
+}
+
+int minTreeNode(struct TreeNode* root)
+{
+    int minnode = INT_MAX;//int 的最大值
+
+    if(root->left == NULL && root->right == NULL)//到最叶节点才会返回
+    {
+        return 1;
+    }
+
+    if(root->left != NULL)
+    {
+        minnode = fmin(minnode, minTreeNode(root->left));//到叶节点时返回,然后对比取最小值
+    }
+
+    if(root->right != NULL)
+    {
+        minnode = fmin(minnode, minTreeNode(root->right));//同理
+    }
+
+    return minnode + 1;//+1 是因为层数, minnode最后得到的仅仅是1,这个1是叶子节点的1, +1是因为层数
+}
