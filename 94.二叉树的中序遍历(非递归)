@@ -1,0 +1,116 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+
+typedef struct TreeNode TreeNode;
+
+typedef struct list
+{
+    TreeNode* root;
+    struct list* next;
+}List;
+
+typedef struct stack
+{
+    List* top;
+    int lengs;
+}Stack;
+
+//初始化
+void initStack(Stack* stack)
+{
+    stack->top = NULL;
+    stack->lengs = 0;
+}
+
+//入栈
+void pushStack(Stack* stack, TreeNode* root)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+
+    List* temp = (List*)malloc(sizeof(List));
+
+    temp->root = root;
+    temp->next = stack->top;
+    stack->top = temp;
+
+    stack->lengs++;
+
+}
+
+//出栈
+void popStack(Stack* stack, TreeNode** returntree)
+{
+    List* temp;//弹出的
+
+    if(stack->top == NULL || stack->lengs == 0)
+    {
+        return;
+    }
+
+    *returntree = stack->top->root;
+    temp = stack->top;
+    stack->top = stack->top->next;
+
+    free(temp);
+    stack->lengs--;
+    return;
+}
+
+int* func(TreeNode* root, int* returnint, int* returnSize);
+
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+    
+    if(root == NULL)
+    {
+        return NULL;
+    }
+
+    *returnSize = 0;
+    int* returnint = (int*)malloc(sizeof(int)*101);
+    func(root, returnint, returnSize);
+    return returnint;
+}
+
+int* func(TreeNode* root, int* returnint, int* returnSize)
+{
+    Stack stack;
+    initStack(&stack);
+
+    TreeNode* Node = root;
+    TreeNode* currTree = (TreeNode*)malloc(sizeof(TreeNode));
+    TreeNode* freeTree = currTree;
+
+    while(Node || (stack.lengs != 0 && stack.top != NULL))
+    {
+        if(Node)
+        {
+            pushStack(&stack, Node);
+            Node = Node->left;
+        }
+        else
+        {
+            popStack(&stack, &currTree);
+            returnint[*returnSize] = currTree->val;
+            *returnSize += 1;
+            Node = currTree->right;
+        }
+    }
+
+    free(freeTree);
+    return returnint;
+
+}
