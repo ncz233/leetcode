@@ -1,0 +1,117 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+
+typedef struct TreeNode TreeNode;
+
+//队列节点
+typedef struct queuenode
+{
+    TreeNode* root;//节点数据
+    struct queuenode* next;//下一个节点
+}QueueNode;
+
+//链式队列
+typedef struct linkqueue
+{
+    QueueNode* qF;//头是要出队
+    QueueNode* qR;//尾是要入队
+}LinkQueue;
+
+//初始化
+void initQueue(LinkQueue* queue)
+{
+    queue->qF = (QueueNode*)malloc(sizeof(QueueNode));
+    queue->qF->next = NULL;
+    queue->qR = queue->qF;
+}
+
+//入队
+void pushQueue(LinkQueue* queue, TreeNode* data)
+{
+    QueueNode* node = (QueueNode*)malloc(sizeof(QueueNode));
+    node->root = data;
+    node->next = NULL;
+
+    queue->qR->next = node;
+    queue->qR = node;
+}
+
+//出队
+TreeNode* popQueue(LinkQueue* queue)
+{
+    TreeNode* returnTree = NULL;//返回的数
+
+    if(queue->qF == queue->qR)
+    {
+        return NULL;
+    }
+
+    QueueNode* node = queue->qR->next;//next是指向自己的懂?在入队的时候已经设置下了
+    returnTree = node->root;//返回的值拿到了
+
+    queue->qR->next = node->next;//是指向的是队列节点的下一个节点
+    
+    if(queue->qR == node)//如果弹出的是最后一个节点
+    {
+        queue->qR = queue->qF;
+    }
+
+    free(node);//记得释放出队的值
+    return returnTree;
+}
+
+//实现层序遍历
+void ZOrderTravers(TreeNode* root, int** num, int* returnSize, int** returnColumnSizes)
+{
+    LinkQueue queue;
+    initQueue(&queue);
+    
+    pushQueue(&queue, root);
+    while(root != NULL || queue.qF != queue.qR)
+    {
+        int code = 0;
+        TreeNode* node = popQueue(&queue)
+        //num[*returnSize][code++] = node->root->val;
+        *returnSize++;
+
+        if(root->left != NULL)
+        {
+            pushQueue(&queue, root->left);
+        }
+
+        if(root->right != NULL)
+        {
+            pushQueue(&queue, root->right);
+        }
+    }
+
+}
+
+
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
+
+    returnSize = 0;
+    if(root == NULL)
+    {
+        return NULL;
+    }
+
+    int** num = (int**)malloc(sizeof(int)*2000);//二维数组是二级指针
+    *returnColumnSizes = (int*)malloc(sizeof(int)*2000);
+
+    ZOrderTravers(root, num, returnSize, returnColumnSizes);
+    return 
+}
