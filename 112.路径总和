@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+bool func(struct TreeNode*root, int sum, int targetSum);
+
+bool hasPathSum(struct TreeNode* root, int targetSum){
+    //与前序遍历有异曲同工之妙
+    if(root == NULL)//判断树是否为空
+    {
+        return false;
+    }
+    
+    return func(root, 0, targetSum);//第二个参数是根到叶的和
+}
+
+bool func(struct TreeNode*root, int sum, int targetSum)
+{
+    
+    sum += root->val;//每个节点的val值的和
+
+    if(!root->left && !root->right && sum == targetSum)//如果到叶节点并且sum == targetsum
+    {
+        return true;
+    }
+
+    if(root->left != NULL)//下一个左节点不为空
+    {
+        if(func(root->left, sum, targetSum))//进入到下一个节点并且递归
+        {
+            return true;//如果返回值是假的就不会返回真.返回假
+        }
+    }
+
+    if(root->right != NULL)//下一个右节点不为空
+    {
+        if(func(root->right, sum, targetSum))//同理
+        {
+            return true;//同理
+        }
+    }
+
+    return false;
+
+}
