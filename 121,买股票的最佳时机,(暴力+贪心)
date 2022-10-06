@@ -1,0 +1,41 @@
+int maxProfit(int* prices, int pricesSize){
+    if(prices == NULL)
+    {
+        return 0;
+    }
+
+    // int sum = 0;
+    //暴力法
+    // for(int i = 0; i < pricesSize; i++)
+    // {
+    //     for(int j = i+1; j < pricesSize; j++)
+    //     {
+    //         if(prices[i] < prices[j])
+    //         {
+    //             int a = prices[j] - prices[i];
+    //             if(sum < a)
+    //             {
+    //                 sum = a;
+    //             }
+    //         }
+    //     }
+    // }
+
+    int maxprices = 0;//最大利润
+    int minprices = prices[0];//最小值一开始是数组第一个元素
+
+    for(int i = 0; i < pricesSize; i++)
+    {
+        if(minprices > prices[i])//如果第一个元素大于其他元素将变成这个元素,因为这个要选定最小值
+        {
+            minprices = prices[i];//最小值
+        }
+
+        if(prices[i] - minprices > maxprices)//如果其它数减去最小值 > 最大利润,最大利润将会变成它们减去的得数
+        {
+            maxprices = prices[i] - minprices;//改变的过程.
+        }
+    }
+
+    return maxprices;
+}
