@@ -1,0 +1,30 @@
+int compare(const void* a, const void* b)
+{
+    return (*(int*)a - *(int*)b);
+}
+
+int singleNumber(int* nums, int numsSize){
+
+    //非空且出现两次,所以跳一个元素访问
+    int head;
+    int i;
+
+    qsort(nums, numsSize, sizeof(int), compare);//快排
+
+    head = nums[0];//这一步你不能在排序前,否则会出错
+
+    for(i = 1; i < numsSize; i++)//这个要1,3,5.为什么不直接写+2,因为需要偶数,写+2就跳过了偶数了
+    {
+        if(head != nums[i])
+        {
+            break;//如果不相同跳出这个循环
+        }
+
+        i++;//在这部是偶数,但这个循环过后,又是奇数了.
+
+        head = nums[i];//这个是下一个的数,也就是偶数.
+    }
+
+    return head;
+
+}
