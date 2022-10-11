@@ -1,0 +1,22 @@
+int majorityElement(int* nums, int numsSize){
+    //因为元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素,入栈也对应了出现的次数,出栈叶对应了还有比这多,我想起了栈,
+    int* stack = (int*)malloc(sizeof(int)* numsSize);//栈
+    int top = -1;//栈的个数,因为有数组有下标0,所以用-1来表示没有
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(top == -1)//栈底是头一个数组元素
+        {
+            stack[++top] = nums[i];//下标不能为-1,所以要前置++
+        }
+        else if(stack[top] == nums[i])//如果栈和比自己高1个下标的数组相同,就入栈
+        {
+            stack[++top] = nums[i];//与栈相同的就入栈
+        }
+        else
+        {
+            top--;//不相同的就出栈
+        }
+    }
+
+    return stack[0];//返回栈底的上一个元素
+}
