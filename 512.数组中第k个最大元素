@@ -1,0 +1,48 @@
+void myqsort(int* nums, int left, int right);
+int myfunc(int* nums, int left, int right);
+
+int findKthLargest(int* nums, int numsSize, int k){
+    //总结降序排序后得到下标为k的元素返回,快排
+    if(nums == NULL || numsSize < k)
+    {
+        return NULL;
+    }
+
+    myqsort(nums, 0, numsSize-1);//快排
+
+    int returnsum = nums[k-1];
+
+    return returnsum;
+}
+
+void myqsort(int* nums, int left, int right)
+{
+    int pos = 0;
+    if(left < right)
+    {
+        pos = myfunc(nums, left, right);//返回中点数的下标
+        myqsort(nums, left, pos-1);//左边开始
+        myqsort(nums, pos+1, right);//右边开始
+    }
+}
+
+int myfunc(int* nums, int left, int right)
+{
+    int val = nums[left];//记录头元素
+    while(left < right)//左不能比右小
+    {
+        while(left < right && nums[right] <= val)//因为是要升序所以要小于等于
+        {
+            right--;
+        }
+        nums[left] = nums[right];
+
+        while(left < right && nums[left] >= val)//这个也是同理
+        {
+            left++;
+        }
+        nums[right] = nums[left];
+    }
+    nums[right] = val;
+    return left;
+}
