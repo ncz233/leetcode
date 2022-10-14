@@ -1,0 +1,98 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+typedef struct TreeNode TreeNode;
+
+typedef struct list
+{
+    TreeNode* data;
+    struct list* next;
+}List;
+
+typedef struct stack
+{
+    List* top;
+    int leng;
+}Stack;
+
+void initStack(Stack* stack)
+{
+    stack->top = NULL;
+    stack->leng = 0;
+}
+
+void pushStack(Stack* stack, TreeNode* root)
+{
+    if(root ==  NULL)
+    {
+        return;
+    }
+
+    List* temp = (List*)malloc(sizeof(List));
+    temp->data = root;
+    temp->next = stack->top;
+
+    stack->top = temp;
+
+    stack->leng++;
+}
+
+TreeNode* popStack(Stack* stack)
+{
+    if(stack->leng == 0)
+    {
+        stack->top = NULL;
+        return NULL;
+    }
+
+    List* urr = stack->top;
+    TreeNode* returntree = urr->data;
+
+    stack->top = urr->next;
+
+    stack->leng--;
+    free(urr);
+    return returntree;
+
+}
+
+int func(TreeNode* root)
+{
+    Stack stack;
+    initStack(&stack);
+    TreeNode* temp;
+
+    int sum = 0;
+    while(root || (stack.leng != 0 && stack.top != NULL))
+    {
+        if(root)
+        {
+            pushStack(&stack, root);
+            root = root->left;
+        }
+        else
+        {
+            temp = popStack(&stack);
+            root = temp->right;
+            sum++;
+        }
+    }
+    return sum;
+}
+
+int countNodes(struct TreeNode* root){
+
+    if(root == NULL)
+    {
+        return 0;
+    }
+
+    return func(root);
+
+}
