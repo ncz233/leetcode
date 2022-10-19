@@ -1,0 +1,6 @@
+int hammingWeight(uint32_t n) {
+    int num = 0;
+    while( n? num++ , n &= (n-1) : 0);//意思是只要n!=0,num++,然后n&n-1最右边的二进制一定不会相等然后在按位与两个都为1结果为一
+    //如果n==0,就输出为0结束循环.
+    return num;
+}
