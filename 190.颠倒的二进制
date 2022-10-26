@@ -1,0 +1,10 @@
+uint32_t reverseBits(uint32_t n) {
+    uint32_t ret = 0;
+    for(int i = 0; i < 32 && n > 0; i++)
+    {
+        ret |= (n & 1) << 31 - i;//先n按位与1 两位都为1,结果为1.然后ret按位或n 两位中有1,结果为1.最后左移31位,左边丢弃,右边补0
+        n >>= 1;//n在向右移动1位
+    }
+
+    return ret;
+}
