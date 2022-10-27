@@ -1,0 +1,92 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+//层序遍历
+typedef struct list
+{
+    struct TreeNode* data;
+    struct list* next;
+}TreeList;
+
+typedef struct queue
+{
+    TreeList* push;
+    TreeList* pop;
+}Queue;
+
+//初始化
+void initQueue(Queue* queue)
+{
+    queue->pop = (TreeList*)malloc(sizeof(TreeList));
+    queue->pop->next = NULL;
+    queue->push = queue->pop;
+}
+
+//插
+void posh_back(Queue* queue, struct TreeNode* root)
+{
+    TreeList* temp = (TreeList*)malloc(sizeof(TreeList));
+    temp->data = root;
+    temp->next = NULL;
+
+    queue->push->next = temp;
+    queue->push = temp;
+}
+
+//删并且得到这个数据
+struct TreeNode* pop_find(Queue* queue)
+{
+    struct TreeNode* data = NULL;
+    if(queue->pop == queue->push)
+    {
+        return data;
+    }
+
+    TreeList* node = queue->pop->next;
+    data = node->data;
+
+    queue->pop->next = node->next;
+    if(queue->pop->next == queue->push)
+    {
+        queue->push = queue->pop;
+    }
+
+    return data;
+}
+
+//开始
+void TreeFunc(struct TreeNode* root);
+
+struct TreeNode* invertTree(struct TreeNode* root){
+    if(root == NULL)
+    {
+        return NULL;
+    }
+
+    TreeFunc(root);
+
+    return  root;
+}
+
+void TreeFunc(struct TreeNode* root)
+{
+    if(root == NULL)
+    {
+        return NULL;
+    }
+
+    struct TreeNode* RightTemp = root->right;
+    struct TreeNode* LeftTemp = root->left;
+    root->left = RightTemp;
+    root->right = LeftTemp;
+
+    TreeFunc(root->left);
+    TreeFunc(root->right);
+    
+}
