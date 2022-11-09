@@ -1,0 +1,23 @@
+int copare(const void * a, const void * b)
+{
+    return ( *(int*)a - *(int*)b );
+}
+
+int missingNumber(int* nums, int numsSize){
+    //快排
+    //用++找数
+    //如找不到数返回numsSize的值
+    qsort(nums, numsSize, sizeof(int), copare);
+
+    int i;
+    for (int i = 0; i < numsSize; i++)
+    {
+        if  (i != nums[i])
+        {
+            return i;
+        }
+    }
+
+    return numsSize;
+
+}
