@@ -1,0 +1,44 @@
+// The API isBadVersion is defined for you.
+// bool isBadVersion(int version);
+
+int doubleFind(int low, int high);
+int firstBadVersion(int n) {
+    if(n == 1)
+    {
+        return 1;
+    }
+
+    //二分查找
+    int low = 1;
+    int high = n;
+
+    int init = doubleFind(low, high);
+    if(init == 0)
+    {
+        return 0;
+    }
+
+    return init;
+    
+}
+
+int doubleFind(int low, int high)
+{
+    while (low <= high)
+	{
+		int mid = ((long)low + (long)high) / 2;//会int类型溢出,所以强转
+		if (isBadVersion(mid) != isBadVersion(mid-1))
+		{
+			return mid;
+		}
+		else if (isBadVersion(mid))
+		{
+			high = mid - 1;
+		}
+		else
+		{
+			low = mid + 1;
+		}
+	}
+	return 0;
+}
