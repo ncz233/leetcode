@@ -1,0 +1,47 @@
+//核心算法
+int GetHappySum(int n);
+
+//快乐数既单身数,可能会无线循环,[无线循环].经典双指针
+bool isHappy(int n){
+    // if(n < 10)
+    // {
+    //     return false;
+    // }
+
+    
+    int fast;//快
+    int slow;//慢
+    slow = GetHappySum(n);//每次走1步,初始位置
+    fast = GetHappySum(slow);//每次走2步,初始位置
+
+    while(slow != 1 || fast != 1)
+    {
+        if(slow == fast)
+        {
+            return false;
+        }
+
+        //开始走了
+        slow = GetHappySum(slow);//1步
+
+        //fast走两步
+        fast = GetHappySum(fast);//1步
+        fast = GetHappySum(fast);//1步
+    }
+
+    return true;
+}
+
+int GetHappySum(int n)
+{
+    int ret = 0;
+    int sum = 0;
+    
+    while(n)
+    {
+        ret = n%10;
+        sum += pow(ret,2);
+        n = n/10;
+    }
+    return sum;
+}
