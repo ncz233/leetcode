@@ -1,0 +1,19 @@
+
+int copare(const void * a, const void * b)
+{
+    return ( *(int*)a < *(int*)b );//降序排列
+}
+
+int thirdMax(int* nums, int numsSize){
+    qsort(nums, numsSize, sizeof(int), copare);
+    
+    //第三大,如果比第一个小,这个数就++,++1次之后,第2次判断如果等于2就是第三大的数
+    int diff = 0;
+    for (int i = 1; i < numsSize; i++) {
+        if (nums[i] != nums[i - 1] && ++diff == 2) {
+            return nums[i];
+        }
+    }
+    //否则返回最大值
+    return nums[0];
+}
