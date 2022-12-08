@@ -1,0 +1,17 @@
+bool isPerfectSquare(int num){
+    if(num == 0)
+    {
+        return false;
+    }
+
+    long sum = 0;
+    for(long i = 1; sum <= num; i++)
+    {
+        sum = i * i;//超出范围了
+        if(sum == num)
+        {
+            return true;
+        }
+    }
+    return false;
+}
